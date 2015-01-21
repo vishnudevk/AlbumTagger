@@ -30,14 +30,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.vish.tagger.dto.Album;
 
 public class CordovaApp extends CordovaActivity
 {
 	 // the items (songs) we have queried
-    List<Album> mItems = new ArrayList<Album>();
-
+    private List<Album> mItems = new ArrayList<Album>();
 	
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -46,10 +47,23 @@ public class CordovaApp extends CordovaActivity
         super.init();
         // Set by <content src="index.html" /> in config.xml
         loadAllAlbums();
-        loadUrl(launchUrl);
+        WebView.setWebContentsDebuggingEnabled(true);//added for debugging
+        loadUrl("file:///android_asset/www/index.html");
+        //appView.loadUrl("file:///android_asset/www/index.html");
+        //setContentView(appView);
+        
     }
 
-   
+    public String getMItems(){
+    	StringBuffer output = new StringBuffer();
+    	for(Album album : mItems){
+    		output.append("<tr>");
+    		output.append(album.toString());
+    		output.append("</tr>");
+    	}
+		return output.toString();
+    	
+    } 
     
     private void loadAllAlbums(){
     	String where = null;
@@ -130,4 +144,22 @@ public class CordovaApp extends CordovaActivity
         Log.i(TAG, "Done querying media. MusicRetriever is ready.");
 
     }*/
+    
+    final class JavaScriptInterface {
+    	CordovaApp cordovaApp;
+        JavaScriptInterface (CordovaApp cordovaApp) {
+        	this.cordovaApp = cordovaApp;
+        }
+        
+        public String getSomeString() {
+          return "string";
+        }
+        
+        public void doThis() 
+        {
+           Toast.makeText(cordovaApp, "Wata Toast...", 20).show();
+        }
+        
+        
+      }
 }
