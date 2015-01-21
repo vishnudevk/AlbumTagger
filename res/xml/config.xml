@@ -29,7 +29,7 @@ AlbumTagger
     <feature name="CordovaApp" >
         <param
             name="android-package"
-            value="com.vish.tagger.CordovaApp" />
+            value="com.vish.tagger.activities.CordovaApp" />
     </feature>
     <feature name="ScriptManager" >
         <param

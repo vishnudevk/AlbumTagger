@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.vish.tagger;
+package com.vish.tagger.activities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +31,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 import com.vish.tagger.dto.Album;
 
 public class CordovaApp extends CordovaActivity
 {
 	 // the items (songs) we have queried
-    private List<Album> mItems = new ArrayList<Album>();
+    private static List<Album> mItems = new ArrayList<Album>();
 	
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -54,13 +53,15 @@ public class CordovaApp extends CordovaActivity
         
     }
 
-    public String getMItems(){
+    public static String getMItems(){
     	StringBuffer output = new StringBuffer();
+    	output.append("<table style=\"width:100%\">");
     	for(Album album : mItems){
     		output.append("<tr>");
     		output.append(album.toString());
     		output.append("</tr>");
     	}
+    	output.append("</table>");
 		return output.toString();
     	
     } 
@@ -144,22 +145,4 @@ public class CordovaApp extends CordovaActivity
         Log.i(TAG, "Done querying media. MusicRetriever is ready.");
 
     }*/
-    
-    final class JavaScriptInterface {
-    	CordovaApp cordovaApp;
-        JavaScriptInterface (CordovaApp cordovaApp) {
-        	this.cordovaApp = cordovaApp;
-        }
-        
-        public String getSomeString() {
-          return "string";
-        }
-        
-        public void doThis() 
-        {
-           Toast.makeText(cordovaApp, "Wata Toast...", 20).show();
-        }
-        
-        
-      }
-}
+    }
