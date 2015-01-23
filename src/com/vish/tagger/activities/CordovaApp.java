@@ -32,6 +32,9 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.WebView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.vish.tagger.dto.Album;
 
 public class CordovaApp extends CordovaActivity
@@ -47,9 +50,9 @@ public class CordovaApp extends CordovaActivity
         // Set by <content src="index.html" /> in config.xml
         loadAllAlbums();
         WebView.setWebContentsDebuggingEnabled(true);//added for debugging
-        loadUrl("file:///android_asset/www/index.html");
-        //appView.loadUrl("file:///android_asset/www/index.html");
-        //setContentView(appView);
+        //loadUrl("file:///android_asset/www/index.html");
+        //loadUrl("file:///android_asset/www/polymer/core-scroll-header-panel/demo.html");
+        loadUrl("file:///android_asset/www/html/AlbumList.html");
         
     }
 
@@ -61,8 +64,9 @@ public class CordovaApp extends CordovaActivity
     		output.append(album.toString());
     		output.append("</tr>");
     	}
-    	output.append("</table>");
-		return output.toString();
+    	Gson gson = new GsonBuilder().create();
+    	JsonArray myCustomArray = gson.toJsonTree(mItems).getAsJsonArray(); 
+		return myCustomArray.toString();
     	
     } 
     
